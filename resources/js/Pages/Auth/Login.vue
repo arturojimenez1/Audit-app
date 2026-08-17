@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps({
@@ -25,11 +25,6 @@ const checkCapsLock = (e) => {
     isCapsLockOn.value = e.getModifierState && e.getModifierState('CapsLock');
 };
 
-const setDemoCredentials = (email, password) => {
-    form.email = email;
-    form.password = password;
-};
-
 const submit = () => {
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
@@ -40,19 +35,17 @@ const submit = () => {
 <template>
     <Head title="Acceso Corporativo - AuditPro" />
 
-    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-slate-100/90 font-sans selection:bg-emerald-600 selection:text-white">
-        <!-- Master Container con estructura sólida de alta definición -->
-        <div class="w-full max-w-5xl rounded-2xl bg-white border border-slate-300 shadow-2xl overflow-hidden grid lg:grid-cols-12 min-h-[620px]">
+    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-slate-100 font-sans selection:bg-emerald-600 selection:text-white">
+        <!-- Master Container con estructura sólida -->
+        <div class="w-full max-w-5xl rounded-2xl bg-white border border-slate-300 shadow-xl overflow-hidden grid lg:grid-cols-12 min-h-[580px]">
             
             <!-- Lado Izquierdo: Panel Corporativo Verde Esmeralda (5 columnas) -->
             <div class="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between bg-emerald-950 border-r border-emerald-900 text-white relative">
-                <!-- Sutil patrón de líneas geométricas -->
-                <div class="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none"></div>
-
+                
                 <!-- Header Branding -->
-                <div class="relative z-10">
+                <div>
                     <div class="flex items-center space-x-3">
-                        <div class="w-11 h-11 rounded-xl bg-emerald-500 flex items-center justify-center text-emerald-950 font-black shadow-lg shadow-emerald-500/20">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-500 flex items-center justify-center text-slate-950 font-black shadow-md shadow-emerald-500/20">
                             <svg class="w-6 h-6 text-slate-950" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                             </svg>
@@ -65,9 +58,11 @@ const submit = () => {
                 </div>
 
                 <!-- Contenido Central -->
-                <div class="relative z-10 my-8 space-y-6">
+                <div class="my-8 space-y-5">
                     <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-emerald-900 border border-emerald-800 text-emerald-300 text-xs font-bold">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
                         <span>Servidor Seguro Conectado</span>
                     </div>
 
@@ -78,23 +73,11 @@ const submit = () => {
                     <p class="text-emerald-100/90 text-sm leading-relaxed">
                         Controla procesos, genera trazabilidad de cambios y gestiona bitácoras con autenticación segura en tiempo real.
                     </p>
-
-                    <!-- Tarjeta de Beneficios y Métricas -->
-                    <div class="grid grid-cols-2 gap-3 pt-2">
-                        <div class="p-3.5 rounded-xl bg-emerald-900/60 border border-emerald-800/80">
-                            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Cumplimiento</div>
-                            <div class="text-base font-extrabold text-white mt-0.5">ISO / SOX Ready</div>
-                        </div>
-                        <div class="p-3.5 rounded-xl bg-emerald-900/60 border border-emerald-800/80">
-                            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Cifrado</div>
-                            <div class="text-base font-extrabold text-white mt-0.5">AES-256 Bit</div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Footer del panel -->
-                <div class="relative z-10 flex items-center justify-between text-xs text-emerald-400/80 border-t border-emerald-900 pt-4 font-medium">
-                    <span>AuditPro Cloud v2.4</span>
+                <div class="flex items-center justify-between text-xs text-emerald-400/80 border-t border-emerald-900 pt-4 font-medium">
+                    <span>AuditPro Cloud</span>
                     <span>&copy; {{ new Date().getFullYear() }}</span>
                 </div>
             </div>
@@ -105,8 +88,10 @@ const submit = () => {
                     
                     <!-- Encabezado Formulario -->
                     <div class="space-y-1">
-                        <div class="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 text-xs font-extrabold uppercase tracking-wider mb-1">
-                            <span>🔐</span>
+                        <div class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 text-xs font-extrabold uppercase tracking-wider mb-1">
+                            <svg class="w-3.5 h-3.5 text-emerald-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
                             <span>Portal de Autenticación</span>
                         </div>
                         <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
@@ -208,9 +193,12 @@ const submit = () => {
                                 </button>
                             </div>
                             
-                            <!-- Aviso de Bloq Mayús -->
-                            <p v-if="isCapsLockOn" class="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded p-1.5 mt-1 flex items-center space-x-1">
-                                <span>⚠️ Bloq Mayús está activado</span>
+                            <!-- Aviso de Bloq Mayús con icono SVG -->
+                            <p v-if="isCapsLockOn" class="text-xs font-bold text-amber-800 bg-amber-50 border border-amber-300 rounded p-1.5 mt-1 flex items-center space-x-1.5">
+                                <svg class="w-4 h-4 text-amber-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
+                                <span>Bloq Mayús está activado</span>
                             </p>
 
                             <!-- Error de Contraseña -->
@@ -267,6 +255,7 @@ const submit = () => {
         </div>
     </div>
 </template>
+
 
 
 
