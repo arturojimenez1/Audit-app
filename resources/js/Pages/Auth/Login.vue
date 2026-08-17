@@ -1,0 +1,243 @@
+<script setup>
+import { ref } from 'vue';
+import { Head, Link, useForm } from '@inertiajs/vue3';
+
+defineProps({
+    canResetPassword: {
+        type: Boolean,
+        default: true,
+    },
+    status: {
+        type: String,
+    },
+});
+
+const showPassword = ref(false);
+
+const form = useForm({
+    email: '',
+    password: '',
+    remember: false,
+});
+
+const submit = () => {
+    form.post(route('login'), {
+        onFinish: () => form.reset('password'),
+    });
+};
+</script>
+
+<template>
+    <Head title="Acceso al Sistema - AuditPro" />
+
+    <div class="min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-10 bg-slate-100 font-sans selection:bg-emerald-600 selection:text-white">
+        <!-- Master Container con Bordes Sólidos y Definidos -->
+        <div class="w-full max-w-5xl rounded-2xl bg-white border border-slate-300 shadow-xl overflow-hidden grid lg:grid-cols-12 min-h-[600px]">
+            
+            <!-- Lado Izquierdo: Panel Sólido Corporativo Verde Esmeralda (5 columnas) -->
+            <div class="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between bg-emerald-900 border-r border-emerald-950 text-white">
+                
+                <!-- Header Branding -->
+                <div>
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-md">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <span class="text-2xl font-bold tracking-tight text-white">Audit<span class="text-emerald-400">Pro</span></span>
+                            <span class="block text-[11px] font-semibold tracking-wider uppercase text-emerald-300">Sistema de Control</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido Central: Mensaje y Tarjeta de Estado Sólida -->
+                <div class="my-8 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-md bg-emerald-800 border border-emerald-700 text-emerald-200 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                        <span>Plataforma Activa y Segura</span>
+                    </div>
+
+                    <h2 class="text-3xl font-extrabold text-white leading-tight">
+                        Gestión y control de auditoría empresarial.
+                    </h2>
+                    
+                    <p class="text-emerald-100 text-sm leading-relaxed">
+                        Accede a tus reportes, métricas y bitácoras de revisión con total integridad y respaldo de información.
+                    </p>
+
+                    <!-- Tarjeta Sólida Informativa -->
+                    <div class="p-4 rounded-xl bg-emerald-950/70 border border-emerald-800 space-y-2.5">
+                        <div class="flex items-center justify-between text-xs font-bold text-emerald-300">
+                            <span>Módulo de Integridad</span>
+                            <span class="bg-emerald-500 text-emerald-950 font-extrabold px-2 py-0.5 rounded text-[10px]">CONECTADO</span>
+                        </div>
+                        <p class="text-xs text-emerald-200">
+                            Cifrado TLS 1.3 y registro permanente de eventos.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Footer del panel -->
+                <div class="flex items-center justify-between text-xs text-emerald-300/80 border-t border-emerald-800/80 pt-4">
+                    <span>AuditPro Enterprise</span>
+                    <span>&copy; {{ new Date().getFullYear() }}</span>
+                </div>
+            </div>
+
+            <!-- Lado Derecho: Formulario en Blanco con Colores Vivos y Definidos (7 columnas) -->
+            <div class="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-center bg-white">
+                <div class="max-w-md w-full mx-auto space-y-6">
+                    
+                    <!-- Encabezado Formulario -->
+                    <div class="space-y-1">
+                        <div class="inline-block px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider mb-1">
+                            Acceso Autorizado
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                            Iniciar Sesión
+                        </h1>
+                        <p class="text-sm text-slate-600">
+                            Ingresa tus credenciales para acceder al sistema.
+                        </p>
+                    </div>
+
+                    <!-- Mensaje de estado -->
+                    <div v-if="status" class="p-3.5 rounded-lg bg-emerald-100 border border-emerald-300 text-emerald-900 text-sm font-medium flex items-center space-x-2">
+                        <svg class="w-4 h-4 text-emerald-700 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>{{ status }}</span>
+                    </div>
+
+                    <!-- Formulario -->
+                    <form @submit.prevent="submit" class="space-y-4">
+                        
+                        <!-- Correo -->
+                        <div class="space-y-1.5">
+                            <label for="email" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                Correo Electrónico
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    v-model="form.email"
+                                    required
+                                    autofocus
+                                    placeholder="usuario@empresa.com"
+                                    autocomplete="username"
+                                    class="w-full pl-11 pr-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 text-sm font-medium focus:bg-white focus:outline-none focus:border-emerald-600 transition-colors"
+                                    :class="{ 'border-rose-500 bg-rose-50': form.errors.email }"
+                                />
+                            </div>
+                            <p v-if="form.errors.email" class="text-xs font-semibold text-rose-600 mt-1">
+                                {{ form.errors.email }}
+                            </p>
+                        </div>
+
+                        <!-- Contraseña -->
+                        <div class="space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <label for="password" class="block text-xs font-bold uppercase tracking-wider text-slate-700">
+                                    Contraseña
+                                </label>
+                                <Link
+                                    v-if="canResetPassword"
+                                    :href="route('password.request')"
+                                    class="text-xs font-bold text-emerald-700 hover:text-emerald-800 transition-colors"
+                                >
+                                    ¿Olvidaste tu contraseña?
+                                </Link>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <input
+                                    id="password"
+                                    :type="showPassword ? 'text' : 'password'"
+                                    v-model="form.password"
+                                    required
+                                    placeholder="••••••••"
+                                    autocomplete="current-password"
+                                    class="w-full pl-11 pr-11 py-3 bg-slate-50 border-2 border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 text-sm font-medium focus:bg-white focus:outline-none focus:border-emerald-600 transition-colors"
+                                    :class="{ 'border-rose-500 bg-rose-50': form.errors.password }"
+                                />
+                                <button
+                                    type="button"
+                                    @click="showPassword = !showPassword"
+                                    class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-800 transition-colors"
+                                    tabindex="-1"
+                                >
+                                    <svg v-if="!showPassword" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg v-else class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <p v-if="form.errors.password" class="text-xs font-semibold text-rose-600 mt-1">
+                                {{ form.errors.password }}
+                            </p>
+                        </div>
+
+                        <!-- Checkbox Recuerdame -->
+                        <div class="flex items-center pt-1">
+                            <label class="flex items-center space-x-2.5 cursor-pointer select-none">
+                                <input
+                                    type="checkbox"
+                                    v-model="form.remember"
+                                    class="w-4 h-4 rounded border-2 border-slate-300 text-emerald-600 focus:ring-emerald-600 cursor-pointer"
+                                />
+                                <span class="text-xs text-slate-700 font-semibold">Recordar este equipo</span>
+                            </label>
+                        </div>
+
+                        <!-- Botón Sólido de Acción -->
+                        <button
+                            type="submit"
+                            :disabled="form.processing"
+                            class="w-full mt-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 p-3.5 font-bold text-white shadow-md transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
+                        >
+                            <svg v-if="form.processing" class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span class="text-sm tracking-wide">
+                                {{ form.processing ? 'Verificando...' : 'Iniciar Sesión' }}
+                            </span>
+                            <svg v-if="!form.processing" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- Link a Registro -->
+                    <div class="text-center pt-3 border-t border-slate-200">
+                        <p class="text-xs text-slate-600 font-medium">
+                            ¿No tienes una cuenta aún?
+                            <Link :href="route('register')" class="text-emerald-700 font-bold hover:text-emerald-800 hover:underline ml-1">
+                                Crear una cuenta
+                            </Link>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+
+
+
